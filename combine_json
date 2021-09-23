@@ -1,0 +1,4 @@
+#!/bin/bash
+
+jq -s 'reduce .[] as $item ({}; reduce ($item | keys_unsorted[]) as $key (.; $item[$key] as $val | ($val | type) as $type | .[$key] = if ($type == "array") then (.[$key] + $val | unique) elif ($type == "object") then (.[$key] + $val) else $val end))' t2.json t3.json
+
